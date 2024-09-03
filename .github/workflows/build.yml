@@ -4,23 +4,14 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
 
       - name: Install Dependencies
         run: |
@@ -29,18 +20,18 @@ jobs:
 
       - name: Build Kernel
         run: |
-          chmod +x scripts/build_kernel.sh
-          ./scripts/build_kernel.sh
+          chmod +x kernel/build_kernel.sh
+          ./kernel/build_kernel.sh
 
       - name: Setup Root Filesystem
         run: |
-          chmod +x scripts/setup_rootfs.sh
-          ./scripts/setup_rootfs.sh
+          chmod +x rootfs/setup_rootfs.sh
+          ./rootfs/setup_rootfs.sh
 
       - name: Create Bootable Image
         run: |
-          chmod +x scripts/create_image.sh
-          ./scripts/create_image.sh
+          chmod +x image/create_image.sh
+          ./image/create_image.sh
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2

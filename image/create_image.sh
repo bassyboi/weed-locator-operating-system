@@ -1,4 +1,6 @@
 #!/bin/bash
+
+# Exit on any error
 set -e
 
 IMG_SIZE=4096
@@ -37,3 +39,5 @@ cp -a rootfs/* mnt/root/
 # Unmount and detach loop device
 umount mnt/boot mnt/root
 losetup -d $LOOP_DEV
+
+echo "Bootable image creation complete."
