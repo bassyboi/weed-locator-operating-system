@@ -28,13 +28,17 @@ jobs:
           chmod +x rootfs/setup_rootfs.sh
           ./rootfs/setup_rootfs.sh
 
-      - name: Create Bootable Image
+      # Using Docker to handle permissions for image creation
+      - name: Create Bootable Image Using Docker
         run: |
-          chmod +x image/create_image.sh
-          ./image/create_image.sh
+          # Build a Docker image that includes all necessary tools
+          docker build -t rpi-image-creator -f Dockerfile .
+          # Run the image creation script inside a Docker container as root
+          docker run --rm -v "${{ github.workspace }}/image:/workspace" rpi-image-creator
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: custom-rpi-os-image
-          path: custom_rpi_os.img
+          path: image/custom_rpi_os.img
+
