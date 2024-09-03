@@ -15,8 +15,8 @@ cd linux
 KERNEL=kernel7l
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig
 
-# Customize the kernel configuration
-make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+# Non-interactive configuration update
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- olddefconfig
 
 # Compile the kernel, modules, and device tree blobs
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs -j$(nproc)
@@ -26,3 +26,4 @@ mkdir -p ../modules
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=../modules modules_install
 
 echo "Kernel build complete."
+
