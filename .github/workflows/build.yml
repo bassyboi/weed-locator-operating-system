@@ -28,7 +28,6 @@ jobs:
           chmod +x rootfs/setup_rootfs.sh
           ./rootfs/setup_rootfs.sh
 
-      # Using Docker to handle permissions for image creation
       - name: Create Bootable Image Using Docker
         run: |
           # Build a Docker image that includes all necessary tools
@@ -41,4 +40,3 @@ jobs:
         with:
           name: custom-rpi-os-image
           path: image/custom_rpi_os.img
-
