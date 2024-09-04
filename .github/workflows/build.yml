@@ -34,11 +34,14 @@ jobs:
           chmod +x rootfs/setup_rootfs.sh
           ./rootfs/setup_rootfs.sh
 
+      - name: Create Output Directory
+        run: mkdir -p ${{ github.workspace }}/image
+
       - name: Create Bootable Image Using Docker
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: Dockerfile
+          context: .github/workflows  # Updated to point to the .github/workflows directory where Dockerfile is located
+          file: .github/workflows/Dockerfile  # Dockerfile is in the .github/workflows directory
           tags: rpi-image-creator:latest
           push: false
 
