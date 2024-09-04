@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     util-linux \
     qemu-utils \
     losetup \
-    mkfs.ext4 \
+    xz-utils \  # Add xz-utils in case it's needed for handling .img files
     --no-install-recommends && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory in the container
 WORKDIR /workspace
 
-# Ensure that the path matches the relative location from the build context
 # Copy the image creation script into the container
 COPY create_image.sh /workspace/create_image.sh
 
