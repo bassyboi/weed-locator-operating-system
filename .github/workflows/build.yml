@@ -11,7 +11,13 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Install Dependencies
         run: |
@@ -29,15 +35,19 @@ jobs:
           ./rootfs/setup_rootfs.sh
 
       - name: Create Bootable Image Using Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          tags: rpi-image-creator:latest
+          push: false
+
+      - name: Run Image Creation in Docker
         run: |
-          # Build a Docker image that includes all necessary tools
-          docker build -t rpi-image-creator -f Dockerfile .
-          # Run the image creation script inside a Docker container as root
-          docker run --rm -v "${{ github.workspace }}/image:/workspace" rpi-image-creator
+          docker run --rm -v "${{ github.workspace }}/image:/workspace" rpi-image-creator:latest
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: custom-rpi-os-image
           path: image/custom_rpi_os.img
-          x 
