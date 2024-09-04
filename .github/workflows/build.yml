@@ -37,11 +37,14 @@ jobs:
       - name: Create Output Directory
         run: mkdir -p ${{ github.workspace }}/image
 
+      - name: List files in workflow directory for debugging
+        run: ls -R .github/workflows
+
       - name: Create Bootable Image Using Docker
         uses: docker/build-push-action@v5
         with:
-          context: .github/workflows  # Updated to point to the .github/workflows directory where Dockerfile is located
-          file: .github/workflows/Dockerfile  # Dockerfile is in the .github/workflows directory
+          context: .github/workflows  # Set context to the workflows directory where Dockerfile is located
+          file: .github/workflows/Dockerfile  # Dockerfile is located in the workflows directory
           tags: rpi-image-creator:latest
           push: false
 
