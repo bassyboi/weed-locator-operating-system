@@ -40,3 +40,4 @@ jobs:
         with:
           name: custom-rpi-os-image
           path: image/custom_rpi_os.img
+          x 
