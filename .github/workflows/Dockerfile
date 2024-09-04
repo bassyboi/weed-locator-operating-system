@@ -20,8 +20,9 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory in the container
 WORKDIR /workspace
 
+# Ensure that the path matches the relative location from the build context
 # Copy the image creation script into the container
-COPY image/create_image.sh /workspace/create_image.sh
+COPY create_image.sh /workspace/create_image.sh
 
 # Ensure the script is executable
 RUN chmod +x /workspace/create_image.sh
