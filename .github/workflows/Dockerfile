@@ -13,8 +13,7 @@ RUN apt-get install -y dosfstools || { echo "Failed to install dosfstools"; exit
 RUN apt-get install -y e2fsprogs || { echo "Failed to install e2fsprogs"; exit 1; }
 RUN apt-get install -y util-linux || { echo "Failed to install util-linux"; exit 1; }
 RUN apt-get install -y qemu-utils || { echo "Failed to install qemu-utils"; exit 1; }
-RUN apt-get install -y losetup || { echo "Failed to install losetup"; exit 1; }
-RUN apt-get install -y mkfs.ext4 || { echo "Failed to install mkfs.ext4"; exit 1; }
+RUN apt-get install -y xz-utils || { echo "Failed to install xz-utils"; exit 1; }  # Added xz-utils for handling compressed files
 
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
