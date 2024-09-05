@@ -4,18 +4,20 @@ FROM ubuntu:20.04
 # Avoid interactive prompts from apt
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Install necessary packages
-RUN apt-get update && apt-get install -y \
-    parted \
-    dosfstools \
-    e2fsprogs \
-    util-linux \
-    qemu-utils \
-    losetup \
-    xz-utils \  # Add xz-utils in case it's needed for handling .img files
-    --no-install-recommends && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Update package lists and upgrade packages
+RUN apt-get update && apt-get upgrade -y
+
+# Install necessary packages in multiple steps to catch errors
+RUN apt-get install -y parted || { echo "Failed to install parted"; exit 1; }
+RUN apt-get install -y dosfstools || { echo "Failed to install dosfstools"; exit 1; }
+RUN apt-get install -y e2fsprogs || { echo "Failed to install e2fsprogs"; exit 1; }
+RUN apt-get install -y util-linux || { echo "Failed to install util-linux"; exit 1; }
+RUN apt-get install -y qemu-utils || { echo "Failed to install qemu-utils"; exit 1; }
+RUN apt-get install -y losetup || { echo "Failed to install losetup"; exit 1; }
+RUN apt-get install -y mkfs.ext4 || { echo "Failed to install mkfs.ext4"; exit 1; }
+
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /workspace
